@@ -1,3 +1,10 @@
+struct OAM $000400
+	.x: skip 1
+	.y: skip 1
+	.index: skip 1
+	.props: skip 1
+endstruct
+
 BG1 = $7E2000
 BG2 = $7E2800
 BG3 = $7E3000

@@ -10,55 +10,7 @@ GameLoop:
 	WAI
 	INC FrameCounter
 
-;	check left
-	LDA.w $0300
-	AND.b #$0F
-	CMP.b #$01
-	BNE +
-	LDA.b Crosshair
-	AND.b #$07
-	BEQ +
-	DEC Crosshair
-+
-
-;	check right
-	LDA.w $0301
-	AND.b #$0F
-	CMP.b #$01
-	BNE +
-	LDA.b Crosshair
-	AND.b #$07
-	CMP.b #$07
-	BEQ +
-	INC Crosshair
-+
-
-;	check up
-	LDA.w $0302
-	AND.b #$0F
-	CMP.b #$01
-	BNE +
-	LDA.b Crosshair
-	AND.b #$38
-	BEQ +
-	LDA.b Crosshair
-	SEC : SBC.b #$08
-	STA.b Crosshair
-+
-
-;	check down
-	LDA.w $0303
-	AND.b #$0F
-	CMP.b #$01
-	BNE +
-	LDA.b Crosshair
-	AND.b #$38
-	CMP.b #$38
-	BEQ +
-	LDA.b Crosshair
-	CLC : ADC.b #$08
-	STA.b Crosshair
-+
+	JSR HandleJoypadMovement
 
 ; check A press
 	LDA.b ShotsTaken
@@ -114,24 +66,6 @@ Fire:
 .kaboom
 	JSR PlayKaboom
 	JSR CountSquids
-	RTS
-
-PlaySploosh:
-	PHP
-	SEP #$20
-	REP #$10
-	%WriteDsp($00, $04)
-	%WriteDsp($01, $4C)
-	PLP
-	RTS
-
-PlayKaboom:
-	PHP
-	SEP #$20
-	REP #$10
-	%WriteDsp($01, $04)
-	%WriteDsp($01, $4C)
-	PLP
 	RTS
 
 CountSquids:
@@ -630,32 +564,4 @@ DrawSquids:
 	SEC : SBC.b #$10
 	STA.w OAM[16].x
 +
-	RTS
-
-InitCrosshair:
-	LDA.b #$AA
-	STA.w OAM.x+$0200
-	LDA.b #$40
-	STA.w OAM[0].index
-	LDA.b #$42
-	STA.w OAM[1].index
-	LDA.b #$60
-	STA.w OAM[2].index
-	LDA.b #$62
-	STA.w OAM[3].index
-	STZ.w OAM[0].props
-	STZ.w OAM[1].props
-	STZ.w OAM[2].props
-	STZ.w OAM[3].props
-	RTS
-
-print "CopyBoardToVRAM: ", pc
-CopyBoardToVRAM:
-	; %CopyToVRAM(0, BG1, $1000, $0800)
-	%CopyToVRAM(0, BG2, $1800, $0800)
-	; %CopyToVRAM(0, BG3, $2000, $0800)
-	RTS
-
-CopyOAM:
-	%CopyToOAM(0, OAM.x, $0220)
 	RTS
