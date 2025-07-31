@@ -35,3 +35,5 @@ SquidsKilled = $2F
 
 SaveCheck = $700000
 SaveBest = $700002
+
+SaveCheckConstant = $1312

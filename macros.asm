@@ -43,3 +43,21 @@ macro WriteDsp(value, address)
 	LDX.w #<address>|(<value><<8)
 	JSR WriteDsp
 endmacro
+
+macro DrawBG2_2Digit(offset)
+	TAX
+	LDA.w Hex2Dec, X
+	PHA
+	LSR #4
+	CLC : ADC.b #$24
+	STA.l BG2+<offset>
+	CLC : ADC.b #$10
+	STA.l BG2+<offset>+$40
+
+	PLA
+	AND.b #$0F
+	CLC : ADC.b #$24
+	STA.l BG2+<offset>+$02
+	CLC : ADC.b #$10
+	STA.l BG2+<offset>+$42
+endmacro

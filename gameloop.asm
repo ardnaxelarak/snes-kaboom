@@ -128,82 +128,22 @@ DrawRestart:
 print "UpdateShots: ", pc
 UpdateShots:
 	LDA.b ShotsTaken
-	CMP.b #20
-	BCS .g20
-	CMP.b #10
-	BCS .g10
-.g0
-	LDA.b #$24
-	STA.l BG2+$46
-	LDA.b #$34
-	STA.l BG2+$86
-	LDA.b ShotsTaken
-	BRA .ones
-.g10
-	LDA.b #$25
-	STA.l BG2+$46
-	LDA.b #$35
-	STA.l BG2+$86
-	LDA.b ShotsTaken
-	SEC : SBC.b #10
-	BRA .ones
-.g20
-	LDA.b #$26
-	STA.l BG2+$46
-	LDA.b #$36
-	STA.l BG2+$86
-	LDA.b ShotsTaken
-	SEC : SBC.b #20
-.ones
-	CLC : ADC.b #$24
-	STA.l BG2+$48
-	CLC : ADC.b #$10
-	STA.l BG2+$88
+	%DrawBG2_2Digit($46)
 	RTS
 
 print "UpdateBest: ", pc
 UpdateBest:
 	LDA.l SaveBest
 	CMP.b #$FF
-	BNE +
-.nobest
+	BEQ .no_best
+	%DrawBG2_2Digit($58)
+	RTS
+.no_best
 	LDA.b #$0F
 	STA.l BG2+$58
 	STA.l BG2+$5A
 	LDA.b #$1F
 	STA.l BG2+$98
-	STA.l BG2+$9A
-	RTS
-+	CMP.b #20
-	BCS .g20
-	CMP.b #10
-	BCS .g10
-.g0
-	LDA.b #$24
-	STA.l BG2+$58
-	LDA.b #$34
-	STA.l BG2+$98
-	LDA.l SaveBest
-	BRA .ones
-.g10
-	LDA.b #$25
-	STA.l BG2+$58
-	LDA.b #$35
-	STA.l BG2+$98
-	LDA.l SaveBest
-	SEC : SBC.b #10
-	BRA .ones
-.g20
-	LDA.b #$26
-	STA.l BG2+$58
-	LDA.b #$36
-	STA.l BG2+$98
-	LDA.l SaveBest
-	SEC : SBC.b #20
-.ones
-	CLC : ADC.b #$24
-	STA.l BG2+$5A
-	CLC : ADC.b #$10
 	STA.l BG2+$9A
 	RTS
 

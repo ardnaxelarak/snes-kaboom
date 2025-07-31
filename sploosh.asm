@@ -13,6 +13,7 @@ incsrc gameloop.asm
 incsrc spc.asm
 incsrc rand.asm
 incsrc joypad.asm
+incsrc tables.asm
 
 print "NMIHandler: ", pc
 NMIHandler:

@@ -34,9 +34,9 @@ ResetHandler:
 
 	REP #$20
 	LDA.l SaveCheck
-	CMP.w #$1312
+	CMP.w #SaveCheckConstant
 	BEQ +
-	LDA.w #$1312
+	LDA.w #SaveCheckConstant
 	STA.l SaveCheck
 	LDA.w #$00FF
 	STA.l SaveBest
